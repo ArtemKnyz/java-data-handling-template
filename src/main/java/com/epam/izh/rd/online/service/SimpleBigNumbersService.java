@@ -27,18 +27,23 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigInteger getPrimaryNumber(int range) {
-        BigInteger s = BigInteger.valueOf(0);
+        int countSimpleValues = 0;
+        int simpleCount = 0;
 
-        int sd = 1;
-        for (int i = 2; i < 100; i++) {
-            for (int j = 2; j < i; j++) {
-                if (i % j == 0) {
-                    System.out.println("это число непростое!" + i);
+        for (simpleCount = 2; simpleCount < Integer.MAX_VALUE; simpleCount++) {
+            for (int j = 2; j < simpleCount; j++) {
+                if (simpleCount % j == 0) {
                     break;
                 }
+                if (simpleCount == j + 1) {
+                    countSimpleValues++;
+                }
             }
-
+            if (countSimpleValues == range) {
+                break;
+            }
         }
-        return BigInteger.valueOf(sd);
+        return BigInteger.valueOf(simpleCount);
     }
 }
+
