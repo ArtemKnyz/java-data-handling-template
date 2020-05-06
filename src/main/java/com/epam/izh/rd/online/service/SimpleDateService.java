@@ -1,9 +1,10 @@
 package com.epam.izh.rd.online.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class SimpleDateService implements DateService {
 
@@ -16,8 +17,7 @@ public class SimpleDateService implements DateService {
     @Override
     public String parseDate(LocalDate localDate) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String sd = dateTimeFormatter.format(localDate);
-        return sd;
+        return dateTimeFormatter.format(localDate);
     }
 
     /**
@@ -28,7 +28,8 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public LocalDateTime parseString(String string) {
-        return null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(string, formatter);
     }
 
     /**
