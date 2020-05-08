@@ -1,9 +1,11 @@
 package com.epam.izh.rd.online.service;
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class SimpleDateService implements DateService {
@@ -63,7 +65,10 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getSecondsInYear(int year) {
-        return 0;
+        LocalDateTime pastYear = LocalDateTime.of(year - 1, 12, 31, 23, 59, 59);
+        LocalDateTime ln = LocalDateTime.of(year, 12, 31, 23, 59, 59);
+
+        return ChronoUnit.SECONDS.between(pastYear, ln);
     }
 
 
