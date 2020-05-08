@@ -66,9 +66,9 @@ public class SimpleDateService implements DateService {
     @Override
     public long getSecondsInYear(int year) {
         LocalDateTime pastYear = LocalDateTime.of(year - 1, 12, 31, 23, 59, 59);
-        LocalDateTime ln = LocalDateTime.of(year, 12, 31, 23, 59, 59);
+        LocalDateTime nowYear = LocalDateTime.of(year, 12, 31, 23, 59, 59);
 
-        return ChronoUnit.SECONDS.between(pastYear, ln);
+        return ChronoUnit.SECONDS.between(pastYear, nowYear);
     }
 
 
