@@ -70,6 +70,4 @@ public class SimpleDateService implements DateService {
 
         return ChronoUnit.SECONDS.between(pastYear, nowYear);
     }
-
-
 }
