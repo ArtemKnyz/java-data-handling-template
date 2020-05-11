@@ -16,21 +16,34 @@ public class SimpleRegExpService implements RegExpService {
      */
     @Override
     public String maskSensitiveData() {
-        File file = new File(" ");
+        File file = new File("F:\\Programmirovanie\\Java\\Examples\\Epam4\\java-data-handling-template\\src\\main\\resources\\sensitive_data.txt");
 
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
             String st = br.readLine();
-            //System.out.println(st);
+           System.out.println(st);
 
 
             int i;
             //Pattern pattern1 = Pattern.compile("\\d{4}-^\\d{4}-^\\d{4}-\\d{4}");
             Pattern pattern1 = Pattern.compile("\\D+[\\d+\\s]{20}\\D+[\\d+\\s]{20}\\D+");
             Pattern pattern = Pattern.compile("[0-9]+");
+
+            //String rep = "\\d\\d\\d\\d\\s\\d\\d\\d\\d";
+            String rep = "[^\\d+{4}\\s\\d+{4}\\s\\d+{4}\\s^\\d+{4}\\s]";
+            String star = "**** ****";
+            Pattern pat = Pattern.compile(rep);
+            Matcher mat = pat.matcher(st);
+            System.out.println(mat.replaceAll(star));
+
             //Matcher matcher = pattern.matcher(st);
             Matcher matcher = pattern1.matcher(st);
+
+
+            System.out.println("hello world");
+
+
             if (matcher.find()) {
                 System.out.println(matcher.group());
             }
