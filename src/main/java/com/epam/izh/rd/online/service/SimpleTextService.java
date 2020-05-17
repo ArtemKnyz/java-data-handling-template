@@ -87,6 +87,7 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isPalindrome(String string) {
-        return false; //TODO
+        
+        return false;
     }
 }
