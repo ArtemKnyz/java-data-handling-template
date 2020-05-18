@@ -87,7 +87,16 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isPalindrome(String string) {
-        
+        String stringNoWhitespices = string.replaceAll(" ", "");
+        StringBuffer reverseStringNoWhitespices = new StringBuffer(stringNoWhitespices).reverse();
+        if (string == null || string.trim().length() == 0) {
+            return false;
+        }
+        if (stringNoWhitespices.equalsIgnoreCase(reverseStringNoWhitespices.toString())) {
+            return true;
+        }
+
         return false;
     }
+
 }
