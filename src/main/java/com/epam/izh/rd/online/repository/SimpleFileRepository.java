@@ -1,5 +1,13 @@
 package com.epam.izh.rd.online.repository;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SimpleFileRepository implements FileRepository {
 
     /**
@@ -10,7 +18,20 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public long countFilesInDirectory(String path) {
-        return 0;
+        long countFilesInDirectory = 0;
+        File[] listOfFilesAndDirectoriesFromPath = new File(path).listFiles();
+        if (listOfFilesAndDirectoriesFromPath != null) {
+            for (File entry : listOfFilesAndDirectoriesFromPath) {
+                if (entry.isDirectory()) {
+                    countFilesInDirectory(entry.getAbsolutePath());
+                    continue;
+                }
+                countFilesInDirectory++;
+            }
+        } else {
+            System.out.println("The directory is empty");
+        }
+        return countFilesInDirectory;
     }
 
     /**
