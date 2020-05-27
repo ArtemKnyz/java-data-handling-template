@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Arrays;
 
 public class SimpleFileRepository implements FileRepository {
+    long countFiles;
+    long countDirectories = 1;
 
     /**
      * Метод рекурсивно подсчитывает количество файлов в директории
@@ -28,7 +30,6 @@ public class SimpleFileRepository implements FileRepository {
         }
         return countFiles;
     }
-    long countFiles;
 
 
     /**
@@ -39,8 +40,22 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public long countDirsInDirectory(String path) {
-        return 0;
+
+        File[] listFilesAndDirectories = new File(path).listFiles();
+        try {
+            for (File entry : listFilesAndDirectories) {
+                if (entry.isDirectory()) {
+                    countDirectories++;
+                    countDirsInDirectory(path + "//" + entry.getName());
+                }
+            }
+        } catch (Exception ex) {
+            ex.getStackTrace();
+            System.out.println("введите корректный путь к директории");
+        }
+        return countDirectories;
     }
+
 
     /**
      * Метод копирует все файлы с расширением .txt
