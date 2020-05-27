@@ -1,12 +1,7 @@
 package com.epam.izh.rd.online.repository;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class SimpleFileRepository implements FileRepository {
 
@@ -18,21 +13,23 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public long countFilesInDirectory(String path) {
-        long countFilesInDirectory = 0;
-        File[] listOfFilesAndDirectoriesFromPath = new File(path).listFiles();
-        if (listOfFilesAndDirectoriesFromPath != null) {
-            for (File entry : listOfFilesAndDirectoriesFromPath) {
-                if (entry.isDirectory()) {
-                    countFilesInDirectory(entry.getAbsolutePath());
-                    continue;
+        File[] listFilesAndDirectories = new File(path).listFiles();
+        try {
+            if (!Arrays.asList(listFilesAndDirectories).isEmpty()) {
+                for (File entry : listFilesAndDirectories) {
+                    if (entry.isFile()) {
+                        countFiles++;
+                    } else countFilesInDirectory(path + "//"
+                            + entry.getName());
                 }
-                countFilesInDirectory++;
             }
-        } else {
-            System.out.println("The directory is empty");
+        } catch (Exception ex) {
+            ex.getStackTrace();
         }
-        return countFilesInDirectory;
+        return countFiles;
     }
+    long countFiles;
+
 
     /**
      * Метод рекурсивно подсчитывает количество папок в директории, считая корень
