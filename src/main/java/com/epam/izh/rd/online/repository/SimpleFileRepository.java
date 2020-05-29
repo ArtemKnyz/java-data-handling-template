@@ -1,6 +1,7 @@
 package com.epam.izh.rd.online.repository;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 public class SimpleFileRepository implements FileRepository {
@@ -15,7 +16,13 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public long countFilesInDirectory(String path) {
-        File[] listFilesAndDirectories = new File(path).listFiles();
+        File[] listFilesAndDirectories = new File[0];
+        try {
+            listFilesAndDirectories = new File(getClass()
+                    .getResource("/" + path).toURI()).listFiles();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         try {
             if (!Arrays.asList(listFilesAndDirectories).isEmpty()) {
                 for (File entry : listFilesAndDirectories) {
@@ -40,8 +47,13 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public long countDirsInDirectory(String path) {
-
-        File[] listFilesAndDirectories = new File(path).listFiles();
+        File[] listFilesAndDirectories = new File[0];
+        try {
+            listFilesAndDirectories = (new File(getClass()
+                    .getResource("/" + path).toURI())).listFiles();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         try {
             for (File entry : listFilesAndDirectories) {
                 if (entry.isDirectory()) {
