@@ -1,6 +1,6 @@
 package com.epam.izh.rd.online.repository;
 
-import java.io.File;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
@@ -100,6 +100,24 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public String readFileFromResources(String fileName) {
-        return null;
+        String contentFromFile = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(getClass()
+                .getResource("/" + fileName).toURI())))) {
+            contentFromFile = reader.readLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        File[] listFilesAndDirectories = new File[0];
+        try {
+            listFilesAndDirectories = (new File(getClass()
+                    .getResource("/" + fileName).toURI())).listFiles();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return contentFromFile;
     }
 }
