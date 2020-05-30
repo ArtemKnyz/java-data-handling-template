@@ -2,6 +2,8 @@ package com.epam.izh.rd.online.repository;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class SimpleFileRepository implements FileRepository {
@@ -77,6 +79,34 @@ public class SimpleFileRepository implements FileRepository {
      */
     @Override
     public void copyTXTFiles(String from, String to) {
+        if(from==null||to==null){
+            System.out.println("Parametrs of method is null ");
+            return;
+        }
+        try {
+            File fromDir = new File((new File(getClass()
+                    .getResource("/" + from)
+                    .toURI()))
+                    .getPath());
+            File toDir = new File((new File(getClass()
+                    .getResource("/" + to)
+                    .toURI()))
+                    .getPath());
+            File[] listTxtFiles = fromDir.listFiles((dir, name) -> name.endsWith("txt"));
+            if (listTxtFiles.length == 0) {
+                return;
+            }
+            for (File file : listTxtFiles) {
+                Files.copy(Paths.get(file.getPath())
+                        , Paths.get(toDir.getPath()
+                                , file.getName()));
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("some");
         return;
     }
 
@@ -87,9 +117,26 @@ public class SimpleFileRepository implements FileRepository {
      * @param name имя файла
      * @return был ли создан файл
      */
+
     @Override
     public boolean createFile(String path, String name) {
-        return false;
+        try {
+            File sourceDir = new File((new File(getClass()
+                    .getResource("/")
+                    .toURI()))
+                    .getPath());
+            File newDir = new File(sourceDir + "/" + path);
+            if (!newDir.exists()) {
+                newDir.mkdir();
+            }
+            Files.createFile(Paths.get(newDir + "/" + name));
+        } catch (IOException e) {
+            System.out.println("Error creating file");
+            return false;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
