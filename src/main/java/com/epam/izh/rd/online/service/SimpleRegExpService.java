@@ -1,5 +1,9 @@
 package com.epam.izh.rd.online.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 public class SimpleRegExpService implements RegExpService {
 
     /**
@@ -11,17 +15,49 @@ public class SimpleRegExpService implements RegExpService {
      */
     @Override
     public String maskSensitiveData() {
-        return null;
+
+        try {
+            FileReader fileFromResources = new FileReader(new File(getClass()
+                    .getClassLoader()
+                    .getResource("sensitive_data.txt")
+                    .getFile()));
+
+            String stringFromFile = new BufferedReader(fileFromResources).readLine();
+            fileFromResources.close();
+            return stringFromFile.replaceAll("(\\d+ )(\\d+\\s\\d+)( \\d+)", "$1**** ****$3");
+
+        } catch (Exception ex) {
+            System.out.println("error");
+            return null;
+        }
+
     }
 
     /**
-     * Метод должен считыввать файл sensitive_data.txt (из директории resources) и заменять плейсхолдер ${payment_amount} и ${balance} на заданные числа. Метод должен
+     * Метод должен считыввать файл sensitive_data.txt (из директории resources) и
+     * заменять плейсхолдер ${payment_amount} и ${balance} на заданные числа. Метод должен
      * содержать регулярное выражение для поиска плейсхолдеров
      *
      * @return обработанный текст
      */
     @Override
     public String replacePlaceholders(double paymentAmount, double balance) {
-        return null;
+        try {
+            FileReader fileFromResources = new FileReader(new File(getClass()
+                    .getClassLoader()
+                    .getResource("sensitive_data.txt")
+                    .getFile()));
+
+            String stringFromFile = new BufferedReader(fileFromResources).readLine();
+            fileFromResources.close();
+            return stringFromFile
+                    .replaceAll("\\$\\{payment_amount}", String.valueOf((int) paymentAmount))
+                    .replaceAll("\\$\\{balance}", String.valueOf((int) balance));
+
+        } catch (Exception ex) {
+            System.out.println("error");
+            return null;
+        }
+
     }
 }
